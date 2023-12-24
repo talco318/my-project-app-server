@@ -3,9 +3,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const {ObjectId} = require("mongodb");
+const cors = require("cors")
 
 const app = express();
 const port = 3001;
+app.use(cors())
 
 // Replace 'your_mongo_db_connection_string' with your actual MongoDB connection string
 mongoose.connect('mongodb://localhost:27017/login-project', {useNewUrlParser: true, useUnifiedTopology: true});
@@ -88,6 +90,26 @@ app.post('/register', async (req, res) => {
         res.status(500).json({error: 'Internal Server Error'});
     }
 });
+
+
+
+app.post('/login', async (req, res) => {
+    try {
+        console.log(req.body['email'])
+        console.log(req.body['password'])
+        const user = await User.findOne({});
+        console.log(user['token']);
+        // const token = req.headers['token'];
+        // console.log(req.headers['token']);
+        res.status(201).json({message: 'User login successfully'});
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({error: 'Internal Server Error'});
+    }
+});
+
+
+
 
 
 // Get user data by token endpoint
