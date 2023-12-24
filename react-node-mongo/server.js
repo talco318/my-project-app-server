@@ -1,8 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const jwt = require('jsonwebtoken');
-const {ObjectId} = require("mongodb");
 const cors = require("cors")
 
 const app = express();
@@ -64,18 +62,6 @@ const initData = () => {
 initData();
 
 
-function extractToken(inputString) {
-    const regex = /\{\{([^}]+)\}\}/;
-    const match = inputString.match(regex);
-
-    if (match) {
-        return match[1].trim();
-    } else {
-        // Return null if no match is found
-        return null;
-    }
-}
-
 // Register endpoint
 app.post('/register', async (req, res) => {
     try {
@@ -95,21 +81,17 @@ app.post('/register', async (req, res) => {
 
 app.post('/login', async (req, res) => {
     try {
-        console.log(req.body['email'])
-        console.log(req.body['password'])
         const user = await User.findOne({});
-        console.log(user['token']);
+        const token = user['token'];
         // const token = req.headers['token'];
         // console.log(req.headers['token']);
-        res.status(201).json({message: 'User login successfully'});
+        // res.status(201).json({message: 'User login successfully'});
+        res.status(201).json([user]);
     } catch (error) {
         console.error(error);
         res.status(500).json({error: 'Internal Server Error'});
     }
 });
-
-
-
 
 
 // Get user data by token endpoint
@@ -137,12 +119,10 @@ app.get('/user', async (req, res) => {
 // Get user projects by token endpoint
 app.get('/projects', async (req, res) => {
     try {
-        const tokenString = req.headers['token'];
-        const token = extractToken(tokenString);
-        console.log(token);
-        const project = await Projects.findOne({});
+        const tokenString =req.headers['authorization']
 
-        console.log(project);
+        const project = await Projects.find();
+
         if (!project) {
             res.status(401).json({error: 'Project not found'});
         } else {
