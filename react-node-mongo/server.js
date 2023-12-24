@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const {ObjectId} = require("mongodb");
 
 const app = express();
-const port = 3000;
+const port = 3001;
 
 // Replace 'your_mongo_db_connection_string' with your actual MongoDB connection string
 mongoose.connect('mongodb://localhost:27017/login-project', {useNewUrlParser: true, useUnifiedTopology: true});
