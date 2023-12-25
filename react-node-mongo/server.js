@@ -102,9 +102,6 @@ app.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({});
         const token = user['token'];
-        // const token = req.headers['token'];
-        // console.log(req.headers['token']);
-        // res.status(201).json({message: 'User login successfully'});
         res.status(201).json([user]);
     } catch (error) {
         console.error(error);
