@@ -4,6 +4,10 @@ This project is a backend (server) for <a href="https://github.com/talco318/reac
 This server was developed with NodeJS and MongoDB. 
 
 
+## To run this app:
+
+### `nodemon server`
+
 
 ## Developed by:
 
