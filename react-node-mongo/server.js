@@ -13,7 +13,7 @@ mongoose.connect('mongodb://localhost:27017/login-project', {useNewUrlParser: tr
 // Define a mongoose schema for the User model
 const userSchema = new mongoose.Schema({
     token: String, personalDetails: {
-        name: String, team: String, joinedAt: Date, avatar: String,
+        name: String, Team: String, joinedAt: Date, avatar: String,
     }
 });
 
@@ -37,7 +37,8 @@ async function saveToDB(token, personalDetails, project) {
 }
 
 const USER_DATA = {
-    "token": "9999-2222-3333-4444", "personalDetails": {
+    "token": "9999-2222-3333-4444",
+    "personalDetails": {
         "name": "Test Test",
         "Team": "Developers",
         "joinedAt": "2018-10-01",
