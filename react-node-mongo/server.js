@@ -18,7 +18,12 @@ const userSchema = new mongoose.Schema({
 });
 
 const projectSchema = new mongoose.Schema({
-    id: String, name: String, score: Number, durationInDays: Number, bugsCount: Number, madeDadeline: Boolean
+    id: String,
+    name: String,
+    score: Number,
+    durationInDays: Number,
+    bugsCount: Number,
+    madeDadeline: Boolean
 });
 
 const User = mongoose.model('User', userSchema);
@@ -27,13 +32,16 @@ const Projects = mongoose.model('Projects', projectSchema);
 // Middleware to parse JSON requests
 app.use(bodyParser.json());
 
-async function saveToDB(token, personalDetails, project) {
+async function saveToDB(token, personalDetails, projects) {
     const newUser = new User({token, personalDetails});
-    const newProject = new Projects(project)
     // Save the user to the database
     await newUser.save();
-    await newProject.save();
 
+    // Save each project to the database
+    for (const projectData of projects) {
+        const newProject = new Projects(projectData);
+        await newProject.save();
+    }
 }
 
 const USER_DATA = {
@@ -43,24 +51,34 @@ const USER_DATA = {
         "Team": "Developers",
         "joinedAt": "2018-10-01",
         "avatar": "https://avatarfiles.alphacoders.com/164/thumb-164632.jpg"
-
     }
 }
 
-
-const PROJECTS_DATA = {
-    "id": "5fb9953bd98214b6df37174d",
-    "name": "Backend Project",
-    "score": 88,
-    "durationInDays": 35,
-    "bugsCount": 74,
-    "madeDadeline": false
-};
+const PROJECTS_DATA = [
+    {
+        "id": "5fb9953bd98214b6df37174d",
+        "name": "Backend Project",
+        "score": 58,
+        "durationInDays": 35,
+        "bugsCount": 74,
+        "madeDadeline": false
+    },
+    {
+        "id": "another-project-id",
+        "name": "Another Project",
+        "score": 95,
+        "durationInDays": 40,
+        "bugsCount": 50,
+        "madeDadeline": true
+    }
+];
 
 const initData = () => {
     return saveToDB(USER_DATA.token, USER_DATA.personalDetails, PROJECTS_DATA);
 }
+
 initData();
+
 
 
 // Register endpoint
