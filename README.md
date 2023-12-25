@@ -1,4 +1,4 @@
-## About this project: 
+# About this project: 
 
 This project is a backend (server) for <a href="https://github.com/talco318/react-login">the react project</a>.
 This server was developed with NodeJS and MongoDB. 
